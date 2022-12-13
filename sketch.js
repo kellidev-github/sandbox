@@ -66,7 +66,7 @@ function draw() {
 
 // Raindrop Class
 function raindrop(
-  x = random(0, 600), y = random(0, 600), r = random(maxRadius/10, maxRadius/5)
+  x = random(0, 600), y = random(0, 600), r = random(maxRadius/10, maxRadius/3)
 ) {
   this.x = x;
   this.y = y;
