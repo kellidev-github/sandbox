@@ -107,7 +107,7 @@ function raindrop(
       this.y += pow(this.r, 0.75);
       // this.y ++;
       this.x += random(-1*maxXmove, maxXmove);
-      print(this.x);
+//       print(this.x);
       let newR = random(0.25*this.r);
       if (newR < 5) {
         newR = 5;
@@ -115,7 +115,7 @@ function raindrop(
       drops.push(new raindrop(this.x, this.y - this.r - newR, newR));
       this.r += -newR;
 
-      if (this.r > maxRadius) {
+      if (this.r >= maxRadius) {
         let newR = this.r - maxRadius;
         drops.push(new raindrop(this.x, this.y - this.r - newR, newR));
         this.r = maxRadius;
