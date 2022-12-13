@@ -60,7 +60,7 @@ function draw() {
   }
 
   image(overAllTexture, 0, 0);
-  print(drops.length);
+//   print(drops.length);
 }
 
 
