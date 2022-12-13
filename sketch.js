@@ -53,8 +53,9 @@ function draw() {
       drop.color1, drop.color2
     );
 
-    drop.update();
     drop.display();
+    drop.update();
+    
     
     
     pop();
