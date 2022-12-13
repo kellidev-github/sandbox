@@ -87,6 +87,7 @@ function raindrop(
               this.r = maxRadius;
             } 
             this.x = (this.x + drops[i].x)/2;
+            this.y = (this.y + drops[i].y)/2;
             index = drops.indexOf(drops[i]);
           } else {
             drops[i].r += 0.5*this.r;
@@ -94,6 +95,7 @@ function raindrop(
               drops[i].r = maxRadius;
             } 
             drops[i].x = (this.x + drops[i].x)/2;
+            drops[i].y = (this.y + drops[i].y)/2;
             index = drops.indexOf(this);
           }
           drops.splice(index,1);
