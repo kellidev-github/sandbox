@@ -53,11 +53,9 @@ function draw() {
       drop.color1, drop.color2
     );
 
-    drop.display();
     drop.update();
-    
-    
-    
+    drop.display();   
+        
     pop();
   }
 
@@ -85,11 +83,17 @@ function raindrop(
           let index;
           if (this.r > drops[i].r) {
             this.r += 0.5*drops[i].r;
+            if (this.r > maxRadius) {
+              this.r = maxRadius;
+            } 
             this.x = (this.x + drops[i].x)/2;
             index = drops.indexOf(drops[i]);
           } else {
             drops[i].r += 0.5*this.r;
-
+            if (this.r > maxRadius) {
+              drops[i].r = maxRadius;
+            } 
+            drops[i].x = (this.x + drops[i].x)/2;
             index = drops.indexOf(this);
           }
           drops.splice(index,1);
