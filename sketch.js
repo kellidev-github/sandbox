@@ -17,20 +17,34 @@ function preload() {
 function setup() {
   pixelDensity(1);
   frameRate(10);
-  let cnv = createCanvas(600, 600);
+  let cnv = createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
 
-  cnv.mousePressed(startSound);
+  // cnv.mousePressed(startSound);
 
   //Filter
   filter = new makeFilter();
 
 }
 
-function startSound() {
-  sound1.loop();
-  loop();
+// function startSound() {
+//   if ( sound1.isPlaying() )
+//   {
+//     sound1.pause(); //pauses audio if it's already playing
+//   }
+//   else
+//   {
+//     sound1.loop(); //loops audio if it isn't already playing
+//   }
+// }
+
+function mousePressed() {
+  if (sound1.isPlaying()) {
+    sound1.stop();
+  } else {
+    sound1.loop();
+  }
 }
 
 
@@ -170,4 +184,8 @@ function makeFilter() {
     }
   }
   overAllTexture.updatePixels();
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
