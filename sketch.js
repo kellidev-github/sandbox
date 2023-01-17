@@ -63,19 +63,19 @@ function draw() {
     for (let i = 0; i < random(maxNewDrops); i++) {
       drops.push(new raindrop());
     }
-    for (let drop of drops) {
-      //if drops overlap, larger drop increases radius
-      //smaller drop is removed
-      drop.updateSize();
-    }
-    print("\N Size Cylcle. Num Drops:" + drops.length); 
+//     for (let drop of drops) {
+//       //if drops overlap, larger drop increases radius
+//       //smaller drop is removed
+//       drop.updateSize();
+//     }
+//     print("\N Size Cylcle. Num Drops:" + drops.length); 
   } else {
-    for (let drop of drops) {
-      //if drops overlap, larger drop increases radius
-      //smaller drop is removed
-      drop.updateLocation();
-    }
-    print("\N Location Cylcle. Num Drops:" + drops.length); 
+//     for (let drop of drops) {
+//       //if drops overlap, larger drop increases radius
+//       //smaller drop is removed
+//       drop.updateLocation();
+//     }
+//     print("\N Location Cylcle. Num Drops:" + drops.length); 
   }
 
   for(let i = 0; i < toRemove.length; i++) {
