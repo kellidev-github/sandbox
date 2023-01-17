@@ -205,7 +205,7 @@ function raindrop(
 
   this.updateLocation = function() {
     if (this.r > maxRadius) {
-      let yMove = this.r/maxR;
+      let yMove = this.r/maxRadius;
       this.y += yMove;
       this.distMovedy += yMove;
       let xMove = random(-1*maxXmove, maxXmove);
