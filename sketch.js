@@ -172,7 +172,7 @@ function makeFilter() {
   // noise
   colorMode(HSB, 360, 100, 100, 100);
   drawingContext.shadowColor = color(0, 0, 5, 95);
-  overAllTexture = createGraphics(600, 600);
+  overAllTexture = createGraphics(windowWidth, windowHeight);
   overAllTexture.loadPixels();
   for (var i = 0; i < width; i++) { // noprotect
     for (var j = 0; j < height; j++) {
