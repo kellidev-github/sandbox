@@ -61,7 +61,7 @@ function draw() {
   if(cycle % 2 == 0) {
     //create several new raindrops as long as drops
     for (let i = 0; i < random(maxNewDrops); i++) {
-      drops.push(new raindrop();
+      drops.push(new raindrop());
     }
 
     for (let drop of drops) {
