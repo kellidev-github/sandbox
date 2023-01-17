@@ -24,7 +24,7 @@ function preload() {
 
 function setup() {
   pixelDensity(1);
-  // frameRate(10);
+  frameRate(10);
   let cnv = createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
@@ -63,22 +63,23 @@ function draw() {
     for (let i = 0; i < random(maxNewDrops); i++) {
       drops.push(new raindrop());
     }
-
     for (let drop of drops) {
       //if drops overlap, larger drop increases radius
       //smaller drop is removed
       drop.updateSize();
     }
+    print("\N Size Cylcle. Num Drops:" + drops.length); 
   } else {
     for (let drop of drops) {
       //if drops overlap, larger drop increases radius
       //smaller drop is removed
       drop.updateLocation();
     }
+    print("\N Location Cylcle. Num Drops:" + drops.length); 
   }
 
-  for(drops2remove in toRemove) {
-    drops.splice(drops2remove, 1);
+  for(let i = 0; i < toRemove.length; i++) {
+    drops.splice(toRemove[i], 1);
   }
 
   toRemove = [];
