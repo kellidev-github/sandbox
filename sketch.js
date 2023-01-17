@@ -1,13 +1,21 @@
 // let colors2 = "6cbbd4BF-9fc5e8BF-5282a1BF-76a5afBF-3d85c6BF".split("-").map((a) => "#" + a);
 // let colors1 = "6cbbd4-9fc5e8-5282a1-76a5af-3d85c6".split("-").map((a) => "#" + a + "00");
-var grad;
-let filter;
-let maxRadius = 35;
-let maxNewDrops = 5;
-let maxXmove = 5;
+// var grad;
+
+let filter; //created water color paper effect
+let maxNewDrops = 5; //maximum # of newdrops generated in a draw cycle
+let dropOverlap = 3;
+let toRemove = []; //store indices of drops to remove
+
+let maxRadius = 20;
+
+//furthest distance to the right or left a falling drops moves
+let maxXmove = 1;
 let gradOffset = 0.1;
 let drops = [];
 let drops2remove = [];
+
+let cycle = 0;
 
 function preload() {
   soundFormats('ogg', 'mp3');
@@ -50,103 +58,227 @@ function draw() {
   //fill in watercolor paper bg to full window size
   background(windowWidth, windowHeight);
 
-  //create new raindrops as long as drops < max
-  for (let i = 0; i < random(maxNewDrops); i++) {
-    drops.push(new raindrop());
+  if(cycle % 2 == 0) {
+    //create several new raindrops as long as drops
+    for (let i = 0; i < random(maxNewDrops); i++) {
+      drops.push(new raindrop();
+    }
+
+    for (let drop of drops) {
+      //if drops overlap, larger drop increases radius
+      //smaller drop is removed
+      drop.updateSize();
+    }
+  } else {
+    for (let drop of drops) {
+      //if drops overlap, larger drop increases radius
+      //smaller drop is removed
+      drop.updateLocation();
+    }
   }
 
-  // drops.push(new raindrop());
+  for(drops2remove in toRemove) {
+    drops.splice(drops2remove, 1);
+  }
 
+  toRemove = [];
+  
 
   for (let drop of drops) {
+    // draw the drop
+    // save starting coordinates
     push();
-    translate(drop.x, drop.y)
+    //translate coordinates to center on drop
+    translate(drop.x, drop.y);
+    //set radial fill
     radialGradient(
       -gradOffset*drop.r, -gradOffset*drop.r, 0, 
       -gradOffset*drop.r, -gradOffset*drop.r, drop.r, 
       drop.color1, drop.color2
     );
-
-    drop.update();
-    drop.display();   
-        
+    //display raindrop
+    drop.display();
+    //          
     pop();
   }
 
+
+
+
+  // // drops.push(new raindrop());
+
+
+  // for (let drop of drops) {
+  //   //update raindrop size and location
+  //   drop.updateSize();
+
+
+  //   // save starting coordinates
+  //   push();
+  //   //translate coordinates to center on drop
+  //   translate(drop.x, drop.y);
+  //   //set radial fill
+  //   radialGradient(
+  //     -gradOffset*drop.r, -gradOffset*drop.r, 0, 
+  //     -gradOffset*drop.r, -gradOffset*drop.r, drop.r, 
+  //     drop.color1, drop.color2
+  //   );
+  //   //display raindrop
+  //   drop.display();
+  //   //          
+  //   pop();
+
+  // }
+
   image(overAllTexture, 0, 0);
+  cycle++;
 //   print(drops.length);
 }
 
 
 // Raindrop Class
 function raindrop(
-  x = random(0, 600), y = random(0, 600), r = random(maxRadius/10, maxRadius/3)
+  x = random(0, windowWidth), y = random(0, windowHeight), r = random(2, 5)
 ) {
   this.x = x;
   this.y = y;
   this.r = r;
+  this.distMovedx = 0;
+  this.distMovedy = 0;
+
   // this.color1 = random(colors1);
   // this.color2 = random(colors2);
 
-  this.color1 = "#5282a1BF";
-  this.color2 = "#6cbbd400";
+  this.color1 = "#5282a100";
+  this.color2 = "#6cbbd4BF";
 
-  this.update = function() {
-
+  this.updateSize = function() {
     for (let i = 0; i < drops.length; i++) {
-      if ( i != drops.indexOf(this) ) {
-        var d = maxRadius/10 + dist(this.x, this.y, drops[i].x, drops[i].y);
-        if (d < this.r + drops[i].r) {
-          let index;
-          if (this.r > drops[i].r) {
-            this.r += 0.5*drops[i].r;
-            if (this.r > maxRadius) {
-              this.r = maxRadius;
-            } 
-            this.x = (this.x + drops[i].x)/2;
-            this.y = (this.y + drops[i].y)/2;
-            index = drops.indexOf(drops[i]);
+      //compare the location of all other drops to this drop
+      if (i != drops.indexOf(this)) {
+        //calculate the distance between the center of the drops minus some overlap buffer
+        var d = dist(this.x, this.y, drops[i].x, drops[i].y) - dropOverlap;
+
+        // drops overlap if the distance between their centers is less than the sum of their radii
+        if (d > this.r + drops[i].r) {
+          //if this drop is smaller than the other drop
+          if (this.r < drops[i].r) {
+            //the other drop adds this drop's area to its area
+            drops[i].r = sqrt(this.r*this.r + drops[i].r*drops[i].r);
+            //this drop's radius becomes zero
+            this.r = 0;
+            toRemove.push(drops.indexOf(this));
+
+            let newX = (drops[i].r*drops[i].x + this.r * this.x) / ( drops[i].r + this.r);
+            drops[i].xMoved += (newX - drops[i].x);
+            drops[i].x = newX;
+
+            if (drops[i].y < this.y) {
+              let yMove = (drops[i].r*drops[i].y + this.r * this.y) / ( drops[i].r + this.r);
+              drops[i].y += yMove;
+              drops[i].distMovedy += yMove;
+            }
+            break;
           } else {
-            drops[i].r += 0.5*this.r;
-            if (this.r > maxRadius) {
-              drops[i].r = maxRadius;
-            } 
-            drops[i].x = (this.x + drops[i].x)/2;
-            drops[i].y = (this.y + drops[i].y)/2;
-            index = drops.indexOf(this);
+            //this drop adds the other drop to its area
+            this.r = sqrt(this.r*this.r + drops[i].r*drops[i].r);
+            //this drop's radius becomes zero
+            drops[i].r = 0;
+            toRemove.push(i);
+
+            let newX = (drops[i].r*drops[i].x + this.r * this.x) / ( drops[i].r + this.r);
+            this.xMoved += (newX - drops[i].x);
+            this.x = newX;
+
+            if (this.y < drops[i].y) {
+              let yMove = (drops[i].r*drops[i].y + this.r * this.y) / ( drops[i].r + this.r);
+              this.y += yMove;
+              this.distMovedy += yMove;
+            }
           }
-          drops.splice(index,1);
-          break;
         }
       }
-    }
-
-
-    if (this.r > 0.5 * maxRadius) {
-      this.y += pow(this.r, 0.75);
-      // this.y ++;
-      this.x += random(-1*maxXmove, maxXmove);
-//       print(this.x);
-      let newR = random(0.25*this.r);
-      if (newR < 5) {
-        newR = 5;
-      }
-      drops.push(new raindrop(this.x, this.y - this.r - newR, newR));
-      this.r += -newR;
-
-      if (this.r >= maxRadius) {
-        let newR = this.r - maxRadius;
-        drops.push(new raindrop(this.x, this.y - this.r - newR, newR));
-        this.r = maxRadius;
-      }
-    }
-
-    if ((this.y - this.r) > 600) {
-      let index = drops.indexOf(this);
-      drops.splice(index, 1);
-      print("drop removed");
+      
     }
   }
+
+  this.updateLocation = function() {
+    if (this.r > maxRadius) {
+      let yMove = this.r/maxR;
+      this.y += yMove;
+      this.distMovedy += yMove;
+      let xMove = random(-1*maxXmove, maxXmove);
+      this.xMoved += xMove;
+      this.x += xMove;
+    }
+
+    let trailDropR = random(2, 5);
+    if (trailDropR < (sqrt(this.xMoved*this.xMoved + this.yMoved*this.yMoved) + 2 * dropOverlap) ) {
+      this.r = sqrt(this.r * this.r - trailDropR * trailDropR);
+      drops.push(new raindrop(this.x + (this.xMoved/2), this.y - this.yMoved/2, trailDropR));
+    }
+
+    if ((this.y - this.r) > windowHeight) {
+      toRemove.push(drops.indexOf(this));
+    }
+  }
+
+//   this.update = function() {
+
+//     for (let i = 0; i < drops.length; i++) {
+//       if ( i != drops.indexOf(this) ) {
+//         var d = maxRadius/10 + dist(this.x, this.y, drops[i].x, drops[i].y);
+//         if (d < this.r + drops[i].r) {
+//           let index;
+//           if (this.r > drops[i].r) {
+//             this.r += 0.5*drops[i].r;
+//             if (this.r > maxRadius) {
+//               this.r = maxRadius;
+//             } 
+//             this.x = (this.x + drops[i].x)/2;
+//             this.y = (this.y + drops[i].y)/2;
+//             index = drops.indexOf(drops[i]);
+//           } else {
+//             drops[i].r += 0.5*this.r;
+//             if (this.r > maxRadius) {
+//               drops[i].r = maxRadius;
+//             } 
+//             drops[i].x = (this.x + drops[i].x)/2;
+//             drops[i].y = (this.y + drops[i].y)/2;
+//             index = drops.indexOf(this);
+//           }
+//           drops.splice(index,1);
+//           break;
+//         }
+//       }
+//     }
+
+
+//     if (this.r > 0.5 * maxRadius) {
+//       this.y += pow(this.r, 0.75);
+//       // this.y ++;
+//       this.x += random(-1*maxXmove, maxXmove);
+// //       print(this.x);
+//       let newR = random(0.25*this.r);
+//       if (newR < 5) {
+//         newR = 5;
+//       }
+//       drops.push(new raindrop(this.x, this.y - this.r - newR, newR));
+//       this.r += -newR;
+
+//       if (this.r >= maxRadius) {
+//         let newR = this.r - maxRadius;
+//         drops.push(new raindrop(this.x, this.y - this.r - newR, newR));
+//         this.r = maxRadius;
+//       }
+//     }
+
+//     if ((this.y - this.r) > 600) {
+//       let index = drops.indexOf(this);
+//       drops.splice(index, 1);
+//       print("drop removed");
+//     }
+//   }
 
   this.display = function() {
     ellipse(0, 0, this.r);
@@ -164,7 +296,6 @@ function radialGradient(sX, sY, sR, eX, eY, eR, colorS, colorE) {
   gradient.addColorStop(1, colorE);
   drawingContext.fillStyle = gradient;
 }
-
 
 // Watercolor Appearance Filter
 // from SamuelYAN's https://openprocessing.org/sketch/143323:1
