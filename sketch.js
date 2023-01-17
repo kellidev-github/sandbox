@@ -88,8 +88,8 @@ function raindrop(
   // this.color1 = random(colors1);
   // this.color2 = random(colors2);
 
-  this.color1 = #47abbaBF;
-  this.color2 = #7fddeb;
+  this.color1 = "#47abbaBF";
+  this.color2 = "#7fddeb";
 
   this.update = function() {
 
