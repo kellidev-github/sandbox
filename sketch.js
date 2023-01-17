@@ -1,5 +1,5 @@
-let colors2 = "6cbbd4BF-9fc5e8BF-5282a1BF-76a5afBF-3d85c6BF".split("-").map((a) => "#" + a);
-let colors1 = "6cbbd4-9fc5e8-5282a1-76a5af-3d85c6".split("-").map((a) => "#" + a + "00");
+// let colors2 = "6cbbd4BF-9fc5e8BF-5282a1BF-76a5afBF-3d85c6BF".split("-").map((a) => "#" + a);
+// let colors1 = "6cbbd4-9fc5e8-5282a1-76a5af-3d85c6".split("-").map((a) => "#" + a + "00");
 var grad;
 let filter;
 let maxRadius = 35;
@@ -16,12 +16,10 @@ function preload() {
 
 function setup() {
   pixelDensity(1);
-  frameRate(10);
+  // frameRate(10);
   let cnv = createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
-
-  // cnv.mousePressed(startSound);
 
   //Filter
   filter = new makeFilter();
@@ -49,8 +47,10 @@ function mousePressed() {
 
 
 function draw() {
-  background(200);
+  //fill in watercolor paper bg to full window size
+  background(windowWidth, windowHeight);
 
+  //create new raindrops as long as drops < max
   for (let i = 0; i < random(maxNewDrops); i++) {
     drops.push(new raindrop());
   }
@@ -85,8 +85,11 @@ function raindrop(
   this.x = x;
   this.y = y;
   this.r = r;
-  this.color1 = random(colors1);
-  this.color2 = random(colors2);
+  // this.color1 = random(colors1);
+  // this.color2 = random(colors2);
+
+  this.color1 = #47abbaBF;
+  this.color2 = #7fddeb;
 
   this.update = function() {
 
@@ -152,6 +155,7 @@ function raindrop(
 
 
 // Radial Gradient Color
+// from Kazuki Umeda's https://www.youtube.com/watch?v=-MUOweQ6wac
 function radialGradient(sX, sY, sR, eX, eY, eR, colorS, colorE) {
   let gradient = drawingContext.createRadialGradient(
     sX, sY, sR, eX, eY, eR
@@ -163,6 +167,7 @@ function radialGradient(sX, sY, sR, eX, eY, eR, colorS, colorE) {
 
 
 // Watercolor Appearance Filter
+// from SamuelYAN's https://openprocessing.org/sketch/143323:1
 function makeFilter() {
   // noise
   colorMode(HSB, 360, 100, 100, 100);
