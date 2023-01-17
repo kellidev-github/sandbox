@@ -1,7 +1,3 @@
-// let colors2 = "6cbbd4BF-9fc5e8BF-5282a1BF-76a5afBF-3d85c6BF".split("-").map((a) => "#" + a);
-// let colors1 = "6cbbd4-9fc5e8-5282a1-76a5af-3d85c6".split("-").map((a) => "#" + a + "00");
-// var grad;
-
 let filter; //created water color paper effect
 let maxNewDrops = 5; //maximum # of newdrops generated in a draw cycle
 let dropOverlap = 3;
@@ -24,26 +20,15 @@ function preload() {
 
 function setup() {
   pixelDensity(1);
-  frameRate(10);
+//   frameRate(10);
   let cnv = createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
 
   //Filter
   filter = new makeFilter();
-
 }
 
-// function startSound() {
-//   if ( sound1.isPlaying() )
-//   {
-//     sound1.pause(); //pauses audio if it's already playing
-//   }
-//   else
-//   {
-//     sound1.loop(); //loops audio if it isn't already playing
-//   }
-// }
 
 function mousePressed() {
   if (sound1.isPlaying()) {
@@ -63,11 +48,11 @@ function draw() {
     for (let i = 0; i < random(maxNewDrops); i++) {
       drops.push(new raindrop());
     }
-//     for (let drop of drops) {
-//       //if drops overlap, larger drop increases radius
-//       //smaller drop is removed
-//       drop.updateSize();
-//     }
+    for (let drop of drops) {
+      //if drops overlap, larger drop increases radius
+      //smaller drop is removed
+      drop.updateSize();
+    }
 //     print("\N Size Cylcle. Num Drops:" + drops.length); 
   } else {
 //     for (let drop of drops) {
@@ -139,7 +124,7 @@ function draw() {
 
 // Raindrop Class
 function raindrop(
-  x = random(0, windowWidth), y = random(0, windowHeight), r = random(2, 5)
+  x = random(0, windowWidth), y = random(0, windowHeight), r = random(2, 10)
 ) {
   this.x = x;
   this.y = y;
