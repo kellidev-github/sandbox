@@ -144,10 +144,10 @@ function raindrop(
       if (i != drops.indexOf(this)) {
         print("Current updateSize index: " + i);
 //         //calculate the distance between the center of the drops minus some overlap buffer
-//         var d = dist(this.x, this.y, drops[i].x, drops[i].y) - dropOverlap;
+        var d = dist(this.x, this.y, drops[i].x, drops[i].y) - dropOverlap;
 
 //         // drops overlap if the distance between their centers is less than the sum of their radii
-//         if (d > this.r + drops[i].r) {
+        if (d > this.r + drops[i].r) {
 //           //if this drop is smaller than the other drop
 //           if (this.r < drops[i].r) {
 //             //the other drop adds this drop's area to its area
@@ -183,8 +183,8 @@ function raindrop(
 //               this.distMovedy += yMove;
 //             }
 //           }
-//         }
-       }      
+        }
+      }      
     }
   }
 
