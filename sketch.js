@@ -4,7 +4,7 @@ let maxNewDrops = 5; //maximum # of newdrops generated in a draw cycle
 let dropOverlap = 3;
 let toRemove = []; //store indices of drops to remove
 
-let makeDrops = FALSE;
+let makeDrops = true;
 
 let maxRadius = 20;
 
