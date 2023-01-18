@@ -30,7 +30,6 @@ function setup() {
   
   textSize(width / 10);
   textAlign(CENTER, CENTER);
-  text(textInstructions);
 
   //Filter
   filter = new makeFilter();
@@ -52,6 +51,7 @@ function mousePressed() {
 function draw() {
   //fill in watercolor paper bg to full window size
   background(windowWidth, windowHeight);
+  text(textInstructions);
 
   if(cycle % 2 == 0) {
     //create several new raindrops as long as drops
