@@ -1,4 +1,5 @@
 let textInstructions = "click to start rain";
+let displayText = true;
 let filter; //created water color paper effect
 let maxNewDrops = 5; //maximum # of newdrops generated in a draw cycle
 let dropOverlap = 1;
@@ -42,15 +43,16 @@ function mousePressed() {
     sound1.loop();
   }
   makeDrops = !makeDrops;
-  textInstructions = "";
+  displayText = false;
 }
 
 
 function draw() {
   //fill in watercolor paper bg to full window size
   background(windowWidth, windowHeight);
-  fill(50);
-  text(textInstructions);
+  if( displayText) {
+    text(textInstructions);
+  }
 
   if( makeDrops) {
     if(cycle % 2 == 0) {
@@ -59,7 +61,7 @@ function draw() {
       for (let i = 0; i < random(maxNewDrops); i++) {
         drops.push(new raindrop());
       }
-      }
+      
       for (let drop of drops) {
         //if drops overlap, larger drop increases radius
         //smaller drop is removed
@@ -99,7 +101,7 @@ function draw() {
       //          
       pop();
     }
-}
+  }
 
 
 
