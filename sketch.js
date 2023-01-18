@@ -86,25 +86,23 @@ function draw() {
     }
 
     toRemove = [];
-
-
-    for (let drop of drops) {
-      // draw the drop
-      // save starting coordinates
-      push();
-      //translate coordinates to center on drop
-      translate(drop.x, drop.y);
-      //set radial fill
-      radialGradient(
-        -gradOffset*drop.r, -gradOffset*drop.r, 0, 
-        -gradOffset*drop.r, -gradOffset*drop.r, drop.r, 
-        drop.color1, drop.color2
-      );
-      //display raindrop
-      drop.display();
-      //          
-      pop();
-    }
+  }
+  for (let drop of drops) {
+    // draw the drop
+    // save starting coordinates
+    push();
+    //translate coordinates to center on drop
+    translate(drop.x, drop.y);
+    //set radial fill
+    radialGradient(
+      -gradOffset*drop.r, -gradOffset*drop.r, 0, 
+      -gradOffset*drop.r, -gradOffset*drop.r, drop.r, 
+      drop.color1, drop.color2
+    );
+    //display raindrop
+    drop.display();
+    //          
+    pop();
   }
 
 
