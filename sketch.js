@@ -51,7 +51,9 @@ function draw() {
   //fill in watercolor paper bg to full window size
   background(windowWidth, windowHeight);
   if( displayText) {
+    fill(0);
     text(textInstructions);
+    print(textInstructions);
   }
 
   if( makeDrops) {
