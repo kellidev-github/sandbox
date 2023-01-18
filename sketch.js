@@ -1,10 +1,10 @@
 let textInstructions = "click to start rain";
 let filter; //created water color paper effect
 let maxNewDrops = 5; //maximum # of newdrops generated in a draw cycle
-let dropOverlap = 3;
+let dropOverlap = 1;
 let toRemove = []; //store indices of drops to remove
 
-let makeDrops = true;
+let makeDrops = false;
 
 let maxRadius = 20;
 
@@ -27,9 +27,7 @@ function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
-  
-  textSize(width / 10);
-  textAlign(CENTER, CENTER);
+ 
 
   //Filter
   filter = new makeFilter();
@@ -51,54 +49,57 @@ function mousePressed() {
 function draw() {
   //fill in watercolor paper bg to full window size
   background(windowWidth, windowHeight);
+  fill(50);
   text(textInstructions);
 
-  if(cycle % 2 == 0) {
-    //create several new raindrops as long as drops
-    if( makeDrops) {
+  if( makeDrops) {
+    if(cycle % 2 == 0) {
+      //create several new raindrops as long as drops
+
       for (let i = 0; i < random(maxNewDrops); i++) {
         drops.push(new raindrop());
       }
+      }
+      for (let drop of drops) {
+        //if drops overlap, larger drop increases radius
+        //smaller drop is removed
+        drop.updateSize();
+      }
+  //     print("\N Size Cylcle. Num Drops:" + drops.length); 
+    } else {
+  //     for (let drop of drops) {
+  //       //if drops overlap, larger drop increases radius
+  //       //smaller drop is removed
+  //       drop.updateLocation();
+  //     }
+  //     print("\N Location Cylcle. Num Drops:" + drops.length); 
     }
+
+    for(let i = 0; i < toRemove.length; i++) {
+      drops.splice(toRemove[i], 1);
+    }
+
+    toRemove = [];
+
+
     for (let drop of drops) {
-      //if drops overlap, larger drop increases radius
-      //smaller drop is removed
-      drop.updateSize();
+      // draw the drop
+      // save starting coordinates
+      push();
+      //translate coordinates to center on drop
+      translate(drop.x, drop.y);
+      //set radial fill
+      radialGradient(
+        -gradOffset*drop.r, -gradOffset*drop.r, 0, 
+        -gradOffset*drop.r, -gradOffset*drop.r, drop.r, 
+        drop.color1, drop.color2
+      );
+      //display raindrop
+      drop.display();
+      //          
+      pop();
     }
-//     print("\N Size Cylcle. Num Drops:" + drops.length); 
-  } else {
-//     for (let drop of drops) {
-//       //if drops overlap, larger drop increases radius
-//       //smaller drop is removed
-//       drop.updateLocation();
-//     }
-//     print("\N Location Cylcle. Num Drops:" + drops.length); 
-  }
-
-  for(let i = 0; i < toRemove.length; i++) {
-    drops.splice(toRemove[i], 1);
-  }
-
-  toRemove = [];
-  
-
-  for (let drop of drops) {
-    // draw the drop
-    // save starting coordinates
-    push();
-    //translate coordinates to center on drop
-    translate(drop.x, drop.y);
-    //set radial fill
-    radialGradient(
-      -gradOffset*drop.r, -gradOffset*drop.r, 0, 
-      -gradOffset*drop.r, -gradOffset*drop.r, drop.r, 
-      drop.color1, drop.color2
-    );
-    //display raindrop
-    drop.display();
-    //          
-    pop();
-  }
+}
 
 
 
@@ -154,7 +155,7 @@ function raindrop(
     for (let i = 0; i < drops.length; i++) {
       //compare the location of all other drops to this drop
       if (i != drops.indexOf(this)) {
-        print("Current updateSize index: " + i);
+        print("This index: " drops.indexOf(this) + "Other index: " + i);
 //         //calculate the distance between the center of the drops minus some overlap buffer
         var d = dist(this.x, this.y, drops[i].x, drops[i].y) - dropOverlap;
         print("Distance: " + d);
