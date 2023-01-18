@@ -28,7 +28,8 @@ function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
- 
+  
+  textAlign(CENTER, CENTER);
 
   //Filter
   filter = new makeFilter();
@@ -52,6 +53,7 @@ function draw() {
   background(windowWidth, windowHeight);
   if( displayText) {
     fill(0);
+    textSize(windowHeight / 3);
     text(textInstructions);
     print(textInstructions);
   }
