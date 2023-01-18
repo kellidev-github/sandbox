@@ -148,6 +148,7 @@ function raindrop(
 
 //         // drops overlap if the distance between their centers is less than the sum of their radii
         if (d > this.r + drops[i].r) {
+          print("OVERLAP - this drop: " + drops.indexOf(this) + "other drop: " + i);
 //           //if this drop is smaller than the other drop
 //           if (this.r < drops[i].r) {
 //             //the other drop adds this drop's area to its area
@@ -183,6 +184,8 @@ function raindrop(
 //               this.distMovedy += yMove;
 //             }
 //           }
+        } else {
+          print("No overlap");
         }
       }      
     }
