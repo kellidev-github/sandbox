@@ -1,7 +1,10 @@
+let textInstructions = "click to start rain";
 let filter; //created water color paper effect
 let maxNewDrops = 5; //maximum # of newdrops generated in a draw cycle
 let dropOverlap = 3;
 let toRemove = []; //store indices of drops to remove
+
+let makeDrops = FALSE;
 
 let maxRadius = 20;
 
@@ -24,9 +27,14 @@ function setup() {
   let cnv = createCanvas(windowWidth, windowHeight);
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
+  
+  textSize(width / 10);
+  textAlign(CENTER, CENTER);
+  text(textInstructions);
 
   //Filter
   filter = new makeFilter();
+  
 }
 
 
@@ -36,6 +44,8 @@ function mousePressed() {
   } else {
     sound1.loop();
   }
+  makeDrops = !makeDrops;
+  textInstructions = "";
 }
 
 
@@ -45,8 +55,10 @@ function draw() {
 
   if(cycle % 2 == 0) {
     //create several new raindrops as long as drops
-    for (let i = 0; i < random(maxNewDrops); i++) {
-      drops.push(new raindrop());
+    if( makeDrops) {
+      for (let i = 0; i < random(maxNewDrops); i++) {
+        drops.push(new raindrop());
+      }
     }
     for (let drop of drops) {
       //if drops overlap, larger drop increases radius
