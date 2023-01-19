@@ -53,7 +53,7 @@ function draw() {
   background('red');
   if( displayText) {
     fill('yellow');
-    textSize(windowHeight / 3);
+    textSize(100);
     text(textInstructions);
     print(textInstructions);
   }
