@@ -54,7 +54,7 @@ function draw() {
   if( displayText) {
     fill('yellow');
     textSize(100);
-    text(textInstructions);
+    text(textInstructions, 10, 10);
     print(textInstructions);
   }
   
