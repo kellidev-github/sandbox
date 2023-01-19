@@ -38,19 +38,19 @@ function setup() {
 
 
 function mousePressed() {
-  if (sound1.isPlaying()) {
-    sound1.stop();
-  } else {
-    sound1.loop();
-  }
-  makeDrops = !makeDrops;
-  displayText = false;
+//   if (sound1.isPlaying()) {
+//     sound1.stop();
+//   } else {
+//     sound1.loop();
+//   }
+//   makeDrops = !makeDrops;
+//   displayText = false;
 }
 
 
 function draw() {
   //fill in watercolor paper bg to full window size
-  background('white');
+//   background('white');
   if( displayText) {
     fill('black');
     textSize(windowHeight / 3);
