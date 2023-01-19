@@ -17,10 +17,10 @@ let drops2remove = [];
 
 let cycle = 0;
 
-function preload() {
-  soundFormats('ogg', 'mp3');
-  sound1 = loadSound('2_Minute_Thunderstorm-Mike_Koenig-574654058.mp3');
-}
+// function preload() {
+//   soundFormats('ogg', 'mp3');
+//   sound1 = loadSound('2_Minute_Thunderstorm-Mike_Koenig-574654058.mp3');
+// }
 
 function setup() {
   pixelDensity(1);
@@ -52,7 +52,7 @@ function draw() {
   //fill in watercolor paper bg to full window size
   background('red');
   if( displayText) {
-    fill('black');
+    fill('yellow');
     textSize(windowHeight / 3);
     text(textInstructions);
     print(textInstructions);
